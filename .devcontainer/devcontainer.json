@@ -1,0 +1,21 @@
+{
+    "name": "Dev Env for GoLang",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/work",
+    "settings": {
+        "eslint.workingDirectories": [
+            {
+                "mode": "auto"
+            }
+        ],
+    },
+    "extensions": [
+        "dbaeumer.vscode-eslint",
+        "mhutchie.git-graph",
+        "zxh404.vscode-proto3",
+        "golang.go",
+        "ms-azuretools.vscode-docker"
+    ],
+    "remoteUser": "root"
+}
