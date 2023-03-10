@@ -1,6 +1,6 @@
 // Config
 syntax = "proto3";
-option go_package="suwageeks.org/warikan/backend/proto";
+option go_package="warikan.suwageeks.org/pkg/pb";
 package warikan;
 
 // ############

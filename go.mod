@@ -1,4 +1,4 @@
-module suwageeks.org/warikan/backend
+module warikan.suwageeks.org
 
 go 1.20
 

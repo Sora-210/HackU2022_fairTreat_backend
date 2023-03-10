@@ -6,7 +6,7 @@
 // - protoc             v4.22.0
 // source: warikan.proto
 
-package proto
+package pb
 
 import (
 	context "context"
