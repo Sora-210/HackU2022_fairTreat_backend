@@ -21,21 +21,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Warikan_CreateBill_FullMethodName        = "/warikan.Warikan/CreateBill"
-	Warikan_ConnectBill_FullMethodName       = "/warikan.Warikan/ConnectBill"
-	Warikan_ConfirmBill_FullMethodName       = "/warikan.Warikan/ConfirmBill"
-	Warikan_AddUser_FullMethodName           = "/warikan.Warikan/AddUser"
-	Warikan_RemoveUser_FullMethodName        = "/warikan.Warikan/RemoveUser"
-	Warikan_GetUsersList_FullMethodName      = "/warikan.Warikan/GetUsersList"
-	Warikan_SetItems_FullMethodName          = "/warikan.Warikan/SetItems"
-	Warikan_AddItem_FullMethodName           = "/warikan.Warikan/AddItem"
-	Warikan_RemoveItem_FullMethodName        = "/warikan.Warikan/RemoveItem"
-	Warikan_GetItemsList_FullMethodName      = "/warikan.Warikan/GetItemsList"
-	Warikan_GetItem_FullMethodName           = "/warikan.Warikan/GetItem"
-	Warikan_SetOwners_FullMethodName         = "/warikan.Warikan/SetOwners"
-	Warikan_AddOwner_FullMethodName          = "/warikan.Warikan/AddOwner"
-	Warikan_RemoveOwner_FullMethodName       = "/warikan.Warikan/RemoveOwner"
-	Warikan_GetItemOwnersList_FullMethodName = "/warikan.Warikan/GetItemOwnersList"
+	Warikan_CreateBill_FullMethodName      = "/warikan.Warikan/CreateBill"
+	Warikan_ConnectBill_FullMethodName     = "/warikan.Warikan/ConnectBill"
+	Warikan_ConfirmBill_FullMethodName     = "/warikan.Warikan/ConfirmBill"
+	Warikan_AddUser_FullMethodName         = "/warikan.Warikan/AddUser"
+	Warikan_RemoveUser_FullMethodName      = "/warikan.Warikan/RemoveUser"
+	Warikan_GetUsersList_FullMethodName    = "/warikan.Warikan/GetUsersList"
+	Warikan_SetItems_FullMethodName        = "/warikan.Warikan/SetItems"
+	Warikan_AddItem_FullMethodName         = "/warikan.Warikan/AddItem"
+	Warikan_RemoveItem_FullMethodName      = "/warikan.Warikan/RemoveItem"
+	Warikan_GetItemsList_FullMethodName    = "/warikan.Warikan/GetItemsList"
+	Warikan_GetItem_FullMethodName         = "/warikan.Warikan/GetItem"
+	Warikan_SetItemOwners_FullMethodName   = "/warikan.Warikan/SetItemOwners"
+	Warikan_AddItemOwner_FullMethodName    = "/warikan.Warikan/AddItemOwner"
+	Warikan_RemoveItemOwner_FullMethodName = "/warikan.Warikan/RemoveItemOwner"
+	Warikan_GetItemOwners_FullMethodName   = "/warikan.Warikan/GetItemOwners"
 )
 
 // WarikanClient is the client API for Warikan service.
@@ -53,16 +53,16 @@ type WarikanClient interface {
 	RemoveUser(ctx context.Context, in *RemoveUserRequest, opts ...grpc.CallOption) (*RemoveUserResponse, error)
 	GetUsersList(ctx context.Context, in *GetUsersListRequest, opts ...grpc.CallOption) (*GetUsersListResponse, error)
 	// Items
-	SetItems(ctx context.Context, in *SetItemRequest, opts ...grpc.CallOption) (*SetItemResponse, error)
+	SetItems(ctx context.Context, in *SetItemsRequest, opts ...grpc.CallOption) (*SetItemsResponse, error)
 	AddItem(ctx context.Context, in *AddItemRequest, opts ...grpc.CallOption) (*AddItemResponse, error)
 	RemoveItem(ctx context.Context, in *RemoveItemRequest, opts ...grpc.CallOption) (*RemoveItemResponse, error)
 	GetItemsList(ctx context.Context, in *GetItemsListRequest, opts ...grpc.CallOption) (*GetItemsListResponse, error)
 	GetItem(ctx context.Context, in *GetItemRequest, opts ...grpc.CallOption) (*GetItemResponse, error)
 	// ItemOwners
-	SetOwners(ctx context.Context, in *SetItemOwnerRequest, opts ...grpc.CallOption) (*SetItemOwnerResponse, error)
-	AddOwner(ctx context.Context, in *AddItemOwnerRequest, opts ...grpc.CallOption) (*AddItemOwnerResponse, error)
-	RemoveOwner(ctx context.Context, in *RemoveItemOwnerRequest, opts ...grpc.CallOption) (*RemoveItemOwnerResponse, error)
-	GetItemOwnersList(ctx context.Context, in *GetItemOwnersRequest, opts ...grpc.CallOption) (*GetItemOwnersResponse, error)
+	SetItemOwners(ctx context.Context, in *SetItemOwnersRequest, opts ...grpc.CallOption) (*SetItemOwnersResponse, error)
+	AddItemOwner(ctx context.Context, in *AddItemOwnerRequest, opts ...grpc.CallOption) (*AddItemOwnerResponse, error)
+	RemoveItemOwner(ctx context.Context, in *RemoveItemOwnerRequest, opts ...grpc.CallOption) (*RemoveItemOwnerResponse, error)
+	GetItemOwners(ctx context.Context, in *GetItemOwnersRequest, opts ...grpc.CallOption) (*GetItemOwnersResponse, error)
 }
 
 type warikanClient struct {
@@ -150,8 +150,8 @@ func (c *warikanClient) GetUsersList(ctx context.Context, in *GetUsersListReques
 	return out, nil
 }
 
-func (c *warikanClient) SetItems(ctx context.Context, in *SetItemRequest, opts ...grpc.CallOption) (*SetItemResponse, error) {
-	out := new(SetItemResponse)
+func (c *warikanClient) SetItems(ctx context.Context, in *SetItemsRequest, opts ...grpc.CallOption) (*SetItemsResponse, error) {
+	out := new(SetItemsResponse)
 	err := c.cc.Invoke(ctx, Warikan_SetItems_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -195,36 +195,36 @@ func (c *warikanClient) GetItem(ctx context.Context, in *GetItemRequest, opts ..
 	return out, nil
 }
 
-func (c *warikanClient) SetOwners(ctx context.Context, in *SetItemOwnerRequest, opts ...grpc.CallOption) (*SetItemOwnerResponse, error) {
-	out := new(SetItemOwnerResponse)
-	err := c.cc.Invoke(ctx, Warikan_SetOwners_FullMethodName, in, out, opts...)
+func (c *warikanClient) SetItemOwners(ctx context.Context, in *SetItemOwnersRequest, opts ...grpc.CallOption) (*SetItemOwnersResponse, error) {
+	out := new(SetItemOwnersResponse)
+	err := c.cc.Invoke(ctx, Warikan_SetItemOwners_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *warikanClient) AddOwner(ctx context.Context, in *AddItemOwnerRequest, opts ...grpc.CallOption) (*AddItemOwnerResponse, error) {
+func (c *warikanClient) AddItemOwner(ctx context.Context, in *AddItemOwnerRequest, opts ...grpc.CallOption) (*AddItemOwnerResponse, error) {
 	out := new(AddItemOwnerResponse)
-	err := c.cc.Invoke(ctx, Warikan_AddOwner_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Warikan_AddItemOwner_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *warikanClient) RemoveOwner(ctx context.Context, in *RemoveItemOwnerRequest, opts ...grpc.CallOption) (*RemoveItemOwnerResponse, error) {
+func (c *warikanClient) RemoveItemOwner(ctx context.Context, in *RemoveItemOwnerRequest, opts ...grpc.CallOption) (*RemoveItemOwnerResponse, error) {
 	out := new(RemoveItemOwnerResponse)
-	err := c.cc.Invoke(ctx, Warikan_RemoveOwner_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Warikan_RemoveItemOwner_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *warikanClient) GetItemOwnersList(ctx context.Context, in *GetItemOwnersRequest, opts ...grpc.CallOption) (*GetItemOwnersResponse, error) {
+func (c *warikanClient) GetItemOwners(ctx context.Context, in *GetItemOwnersRequest, opts ...grpc.CallOption) (*GetItemOwnersResponse, error) {
 	out := new(GetItemOwnersResponse)
-	err := c.cc.Invoke(ctx, Warikan_GetItemOwnersList_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Warikan_GetItemOwners_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -246,16 +246,16 @@ type WarikanServer interface {
 	RemoveUser(context.Context, *RemoveUserRequest) (*RemoveUserResponse, error)
 	GetUsersList(context.Context, *GetUsersListRequest) (*GetUsersListResponse, error)
 	// Items
-	SetItems(context.Context, *SetItemRequest) (*SetItemResponse, error)
+	SetItems(context.Context, *SetItemsRequest) (*SetItemsResponse, error)
 	AddItem(context.Context, *AddItemRequest) (*AddItemResponse, error)
 	RemoveItem(context.Context, *RemoveItemRequest) (*RemoveItemResponse, error)
 	GetItemsList(context.Context, *GetItemsListRequest) (*GetItemsListResponse, error)
 	GetItem(context.Context, *GetItemRequest) (*GetItemResponse, error)
 	// ItemOwners
-	SetOwners(context.Context, *SetItemOwnerRequest) (*SetItemOwnerResponse, error)
-	AddOwner(context.Context, *AddItemOwnerRequest) (*AddItemOwnerResponse, error)
-	RemoveOwner(context.Context, *RemoveItemOwnerRequest) (*RemoveItemOwnerResponse, error)
-	GetItemOwnersList(context.Context, *GetItemOwnersRequest) (*GetItemOwnersResponse, error)
+	SetItemOwners(context.Context, *SetItemOwnersRequest) (*SetItemOwnersResponse, error)
+	AddItemOwner(context.Context, *AddItemOwnerRequest) (*AddItemOwnerResponse, error)
+	RemoveItemOwner(context.Context, *RemoveItemOwnerRequest) (*RemoveItemOwnerResponse, error)
+	GetItemOwners(context.Context, *GetItemOwnersRequest) (*GetItemOwnersResponse, error)
 	mustEmbedUnimplementedWarikanServer()
 }
 
@@ -281,7 +281,7 @@ func (UnimplementedWarikanServer) RemoveUser(context.Context, *RemoveUserRequest
 func (UnimplementedWarikanServer) GetUsersList(context.Context, *GetUsersListRequest) (*GetUsersListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsersList not implemented")
 }
-func (UnimplementedWarikanServer) SetItems(context.Context, *SetItemRequest) (*SetItemResponse, error) {
+func (UnimplementedWarikanServer) SetItems(context.Context, *SetItemsRequest) (*SetItemsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetItems not implemented")
 }
 func (UnimplementedWarikanServer) AddItem(context.Context, *AddItemRequest) (*AddItemResponse, error) {
@@ -296,17 +296,17 @@ func (UnimplementedWarikanServer) GetItemsList(context.Context, *GetItemsListReq
 func (UnimplementedWarikanServer) GetItem(context.Context, *GetItemRequest) (*GetItemResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetItem not implemented")
 }
-func (UnimplementedWarikanServer) SetOwners(context.Context, *SetItemOwnerRequest) (*SetItemOwnerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetOwners not implemented")
+func (UnimplementedWarikanServer) SetItemOwners(context.Context, *SetItemOwnersRequest) (*SetItemOwnersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetItemOwners not implemented")
 }
-func (UnimplementedWarikanServer) AddOwner(context.Context, *AddItemOwnerRequest) (*AddItemOwnerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddOwner not implemented")
+func (UnimplementedWarikanServer) AddItemOwner(context.Context, *AddItemOwnerRequest) (*AddItemOwnerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddItemOwner not implemented")
 }
-func (UnimplementedWarikanServer) RemoveOwner(context.Context, *RemoveItemOwnerRequest) (*RemoveItemOwnerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveOwner not implemented")
+func (UnimplementedWarikanServer) RemoveItemOwner(context.Context, *RemoveItemOwnerRequest) (*RemoveItemOwnerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveItemOwner not implemented")
 }
-func (UnimplementedWarikanServer) GetItemOwnersList(context.Context, *GetItemOwnersRequest) (*GetItemOwnersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetItemOwnersList not implemented")
+func (UnimplementedWarikanServer) GetItemOwners(context.Context, *GetItemOwnersRequest) (*GetItemOwnersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetItemOwners not implemented")
 }
 func (UnimplementedWarikanServer) mustEmbedUnimplementedWarikanServer() {}
 
@@ -433,7 +433,7 @@ func _Warikan_GetUsersList_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _Warikan_SetItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetItemRequest)
+	in := new(SetItemsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -445,7 +445,7 @@ func _Warikan_SetItems_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Warikan_SetItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarikanServer).SetItems(ctx, req.(*SetItemRequest))
+		return srv.(WarikanServer).SetItems(ctx, req.(*SetItemsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -522,74 +522,74 @@ func _Warikan_GetItem_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Warikan_SetOwners_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetItemOwnerRequest)
+func _Warikan_SetItemOwners_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetItemOwnersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WarikanServer).SetOwners(ctx, in)
+		return srv.(WarikanServer).SetItemOwners(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Warikan_SetOwners_FullMethodName,
+		FullMethod: Warikan_SetItemOwners_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarikanServer).SetOwners(ctx, req.(*SetItemOwnerRequest))
+		return srv.(WarikanServer).SetItemOwners(ctx, req.(*SetItemOwnersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Warikan_AddOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Warikan_AddItemOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddItemOwnerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WarikanServer).AddOwner(ctx, in)
+		return srv.(WarikanServer).AddItemOwner(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Warikan_AddOwner_FullMethodName,
+		FullMethod: Warikan_AddItemOwner_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarikanServer).AddOwner(ctx, req.(*AddItemOwnerRequest))
+		return srv.(WarikanServer).AddItemOwner(ctx, req.(*AddItemOwnerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Warikan_RemoveOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Warikan_RemoveItemOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemoveItemOwnerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WarikanServer).RemoveOwner(ctx, in)
+		return srv.(WarikanServer).RemoveItemOwner(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Warikan_RemoveOwner_FullMethodName,
+		FullMethod: Warikan_RemoveItemOwner_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarikanServer).RemoveOwner(ctx, req.(*RemoveItemOwnerRequest))
+		return srv.(WarikanServer).RemoveItemOwner(ctx, req.(*RemoveItemOwnerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Warikan_GetItemOwnersList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Warikan_GetItemOwners_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetItemOwnersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WarikanServer).GetItemOwnersList(ctx, in)
+		return srv.(WarikanServer).GetItemOwners(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Warikan_GetItemOwnersList_FullMethodName,
+		FullMethod: Warikan_GetItemOwners_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WarikanServer).GetItemOwnersList(ctx, req.(*GetItemOwnersRequest))
+		return srv.(WarikanServer).GetItemOwners(ctx, req.(*GetItemOwnersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -642,20 +642,20 @@ var Warikan_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Warikan_GetItem_Handler,
 		},
 		{
-			MethodName: "SetOwners",
-			Handler:    _Warikan_SetOwners_Handler,
+			MethodName: "SetItemOwners",
+			Handler:    _Warikan_SetItemOwners_Handler,
 		},
 		{
-			MethodName: "AddOwner",
-			Handler:    _Warikan_AddOwner_Handler,
+			MethodName: "AddItemOwner",
+			Handler:    _Warikan_AddItemOwner_Handler,
 		},
 		{
-			MethodName: "RemoveOwner",
-			Handler:    _Warikan_RemoveOwner_Handler,
+			MethodName: "RemoveItemOwner",
+			Handler:    _Warikan_RemoveItemOwner_Handler,
 		},
 		{
-			MethodName: "GetItemOwnersList",
-			Handler:    _Warikan_GetItemOwnersList_Handler,
+			MethodName: "GetItemOwners",
+			Handler:    _Warikan_GetItemOwners_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

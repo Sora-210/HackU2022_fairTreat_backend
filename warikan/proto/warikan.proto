@@ -20,17 +20,17 @@ service Warikan {
     rpc GetUsersList (GetUsersListRequest) returns (GetUsersListResponse) {}
 
     // Items
-    rpc SetItems (SetItemRequest) returns (SetItemResponse) {}
+    rpc SetItems (SetItemsRequest) returns (SetItemsResponse) {}
     rpc AddItem (AddItemRequest) returns (AddItemResponse) {}
     rpc RemoveItem (RemoveItemRequest) returns (RemoveItemResponse) {}
     rpc GetItemsList (GetItemsListRequest) returns (GetItemsListResponse) {}
     rpc GetItem (GetItemRequest) returns (GetItemResponse) {}
 
     // ItemOwners
-    rpc SetOwners (SetItemOwnerRequest) returns (SetItemOwnerResponse) {}
-    rpc AddOwner (AddItemOwnerRequest) returns (AddItemOwnerResponse) {}
-    rpc RemoveOwner (RemoveItemOwnerRequest) returns (RemoveItemOwnerResponse) {}
-    rpc GetItemOwnersList (GetItemOwnersRequest) returns (GetItemOwnersResponse) {}
+    rpc SetItemOwners (SetItemOwnersRequest) returns (SetItemOwnersResponse) {}
+    rpc AddItemOwner (AddItemOwnerRequest) returns (AddItemOwnerResponse) {}
+    rpc RemoveItemOwner (RemoveItemOwnerRequest) returns (RemoveItemOwnerResponse) {}
+    rpc GetItemOwners (GetItemOwnersRequest) returns (GetItemOwnersResponse) {}
 }
 
 // ############
@@ -122,12 +122,12 @@ message GetUsersListResponse {
 
 //// Item
 // Set
-message SetItemRequest {
+message SetItemsRequest {
     Bill bill = 1;
     string ownerPassword = 2;
     repeated Item items = 3;
 }
-message SetItemResponse {
+message SetItemsResponse {
     bool status = 1;
 }
 // Add
@@ -167,13 +167,13 @@ message GetItemResponse {
 
 /// Owner
 // Set
-message SetItemOwnerRequest {
+message SetItemOwnersRequest {
     Bill bill = 1;
     string hostPassword = 2;
     int32 itemId = 3;
     repeated User owners = 4;
 }
-message SetItemOwnerResponse {
+message SetItemOwnersResponse {
     bool status = 1;
 }
 // Add
