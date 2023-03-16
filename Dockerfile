@@ -1,7 +1,7 @@
 FROM golang:1.20.1-buster
 
 RUN apt-get update -y &&\
-    apt-get upgrade &&\
+    apt-get upgrade -y &&\
     apt-get install zip -y &&\
     PB_REL="https://github.com/protocolbuffers/protobuf/releases" &&\
     curl -LO $PB_REL/download/v22.0/protoc-22.0-linux-x86_64.zip &&\
@@ -15,7 +15,7 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1 &&\
 RUN mkdir /app
 
 COPY . /app
-WORKDIR /app/warikan/src/
+WORKDIR /app/fairtreat/
 RUN go install
-CMD go run main.go
+CMD go run main.go ./grpc
 EXPOSE 50000
