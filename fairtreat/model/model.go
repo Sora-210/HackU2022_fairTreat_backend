@@ -11,7 +11,7 @@ type Bill struct {
 }
 
 type Item struct {
-	ID			int32
+	Id			int32
 	Name		string
 	Price		int32
 	Owners		[]User
