@@ -6,11 +6,13 @@ import (
 	"flag"
 	"net"
 	"context"
+
 	"google.golang.org/grpc"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	pb "warikan.suwageeks.org/warikan/pkg/pb"
+	
+	pb "fairtreat.suwageeks.org/fairtreat/pb"
 )
 
 // commandLine variable
@@ -20,7 +22,7 @@ var (
 
 // wrap
 type server struct {
-	pb.UnimplementedWarikanServer
+	pb.UnimplementedFairTreatServer
 	db *mongo.Client
 }
 
@@ -41,6 +43,7 @@ func main() {
 			panic(err)
 		}
 	} ()
+
 	if err := server.db.Ping(context.TODO(), readpref.Primary()); err != nil {
 		panic(err)
 	}
@@ -53,7 +56,7 @@ func main() {
 		log.Fatalf("Failed to Listen:\n\t %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterWarikanServer(s, &server)
+	pb.RegisterFairTreatServer(s, &server)
 	log.Printf("Start Server Listening at %v", listen.Addr())
 	if err := s.Serve(listen); err != nil {
 		log.Fatalf("Failed to serve:\n\t%v", err)
