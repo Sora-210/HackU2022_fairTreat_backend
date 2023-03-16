@@ -8,11 +8,12 @@ import (
 	"context"
 
 	"google.golang.org/grpc"
+	pb "fairtreat.suwageeks.org/fairtreat/pb"
+	gr "fairtreat.suwageeks.org/fairtreat/grpc"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	
-	pb "fairtreat.suwageeks.org/fairtreat/pb"
 )
 
 // commandLine variable
@@ -20,31 +21,25 @@ var (
 	port = flag.Int("port", 50000, "The gRPC Server Port")
 )
 
-// wrap
-type server struct {
-	pb.UnimplementedFairTreatServer
-	db *mongo.Client
-}
-
 // db URI
 var (
-	URI = "mongodb://root:root@db:27017"
+	URI = "mongodb://root:root@db-primary:27017"
 )
 // main
 func main() {
 	// サーバーの構造体を生成
-	server := server{}
+	server := gr.Server{}
 
 	// 構造体ないにデータベースのクライアントを登録
-	server.db, _ = mongo.Connect(context.TODO(), options.Client().ApplyURI(URI))
+	server.DB, _ = mongo.Connect(context.TODO(), options.Client().ApplyURI(URI))
 	// 切断する処理をdeferとして登録
 	defer func() {
-		if err := server.db.Disconnect(context.TODO()); err != nil {
+		if err := server.DB.Disconnect(context.TODO()); err != nil {
 			panic(err)
 		}
 	} ()
 
-	if err := server.db.Ping(context.TODO(), readpref.Primary()); err != nil {
+	if err := server.DB.Ping(context.TODO(), readpref.Primary()); err != nil {
 		panic(err)
 	}
 
