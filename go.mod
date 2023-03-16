@@ -1,4 +1,4 @@
-module warikan.suwageeks.org
+module fairtreat.suwageeks.org
 
 go 1.20
 
