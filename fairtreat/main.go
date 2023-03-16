@@ -6,6 +6,8 @@ import (
 	"flag"
 	"net"
 	"context"
+	"time"
+	"math/rand"
 
 	"google.golang.org/grpc"
 	pb "fairtreat.suwageeks.org/fairtreat/pb"
@@ -27,6 +29,10 @@ var (
 )
 // main
 func main() {
+	// 乱数のシード値を設定
+	seed := time.Now().UnixNano()
+	rand.Seed(seed)
+
 	// サーバーの構造体を生成
 	server := gr.Server{}
 
