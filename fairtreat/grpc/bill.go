@@ -176,11 +176,17 @@ func (s *Server) ConfirmBill(ctx context.Context, req *pb.ConfirmBillRequest) (*
 
 	// 金額計算処理
 	for _, v := range result.Items {
-		var price int32 = v.Price
+
 		var count int32 = int32(len(v.Owners))
+		// 除算対策
+		if count == 0 {
+			v.Owners = append(v.Owners, result.Host)
+			count = 1
+		}
+
+		var price int32 = v.Price
 		var priceOfPeople int32 = price / count
 		var priceOfMod int32 = price - (priceOfPeople * count)
-
 		flag := true
 		for _, w := range v.Owners {
 			if _, ok := confirmPrices[w.Id]; !ok {
