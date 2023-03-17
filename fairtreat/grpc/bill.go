@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"regexp"
+	"strconv"
 
 	pb "fairtreat.suwageeks.org/fairtreat/pb"
 
@@ -123,13 +124,6 @@ func (s *Server) ConfirmBill(ctx context.Context, req *pb.ConfirmBillRequest) (*
 
 	// 処理用配列を作成
 	comfirmPrices := map[int32]*model.PayPrice{}
-	comfirmPrices[result.Host.Id] = &model.PayPrice{
-		User: model.User{
-			Id: result.Host.Id,
-			Name: result.Host.Name,
-		},
-		Price: 0,
-	}
 	for _, v := range result.Guests {
 		comfirmPrices[v.Id] = &model.PayPrice{
 			User: model.User{
@@ -266,6 +260,7 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 	for changeStream.Next(context.TODO()) {
 		var result model.ChangeStream
 		var resType pb.BILL_CHANGE_TYPE
+		var id int32
 
 		changeStream.Decode(&result)
 		fmt.Println(result.UpdateDescription.UpdatedFields)
@@ -276,16 +271,29 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 
 			// 正規表現の生成
 			guestRe := regexp.MustCompile(`^(Guest)`)
+			ownersRe := regexp.MustCompile(`items.\d.owners`)
 			
 			// AddUser
 			if (guestRe.MatchString(k)) {
 				resType = pb.BILL_CHANGE_TYPE_GUEST
+				id = 0
+			}
+			// SetOwners
+			if (ownersRe.MatchString(k)) {
+				resType = pb.BILL_CHANGE_TYPE_ITEM
+
+				itemId := k[6:]
+				findIdRe := regexp.MustCompile(`.owners`)
+				end := int(findIdRe.FindStringIndex(itemId)[0])
+				itemId = itemId[:end]
+				i, _ := strconv.Atoi(itemId)
+				id = int32(i)
 			}
 		}
 
 		res := &pb.ConnectBillResponse{
 			Type: resType,
-			Id: 0,
+			Id: id,
 		}
 		stream.Send(res)
 	}
