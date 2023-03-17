@@ -1,6 +1,10 @@
 package model
 
-import	"go.mongodb.org/mongo-driver/bson/primitive"
+import	(
+	pb "fairtreat.suwageeks.org/fairtreat/pb"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Bill struct {
 	ID	primitive.ObjectID	`bson:"_id"`
@@ -24,4 +28,14 @@ type User struct {
 
 type Owners struct {
 	Owners	[]User	`bson:"owners"`
+}
+
+type PayPrice struct {
+	User	User
+	Price	int32
+}
+
+type ComfirmBill struct {
+	ID			primitive.ObjectID	`bson:"_id"`
+	Comfirm		[]*pb.PayPrice			`bson:"comfirm"`
 }
