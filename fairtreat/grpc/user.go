@@ -99,10 +99,6 @@ func (s *Server) GetUsersList(ctx context.Context, req *pb.GetUsersListRequest) 
 
 	// ユーザーリストを作成
 	var users []*pb.User
-	users = append(users, &pb.User{
-		Id: result.Host.Id,
-		Name: result.Host.Name,
-	})
 	for _, v := range result.Guests {
 		users = append(users, &pb.User{
 			Id: v.Id,
