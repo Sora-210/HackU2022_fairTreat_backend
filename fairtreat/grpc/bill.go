@@ -46,7 +46,10 @@ func (s *Server) CreateBill(ctx context.Context, req *pb.CreateBillRequest) (*pb
 			Name: hostName,
 			Id: hostId,
 		},
-		Guests: nil,
+		Guests: []model.User{{
+			Id: hostId,
+			Name: hostName,
+		}},
 		Items: items,
 	}
 	_, err := coll.InsertOne(context.Background(), bill)
@@ -272,6 +275,7 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 			// 正規表現の生成
 			guestRe := regexp.MustCompile(`^(Guest)`)
 			ownersRe := regexp.MustCompile(`items.\d.owners`)
+			comfirmRe := regexp.MustCompile(`^(comfirm)`)
 			
 			// AddUser
 			if (guestRe.MatchString(k)) {
@@ -288,6 +292,11 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 				itemId = itemId[:end]
 				i, _ := strconv.Atoi(itemId)
 				id = int32(i)
+			}
+			// ComfirmBill
+			if (comfirmRe.MatchString(k)) {
+				resType = pb.BILL_CHANGE_TYPE_CONFIRM
+				id = 0
 			}
 		}
 
