@@ -4,20 +4,24 @@ import	"go.mongodb.org/mongo-driver/bson/primitive"
 
 type Bill struct {
 	ID	primitive.ObjectID	`bson:"_id"`
-	Status 	bool
-	Host	User
-	Guests	[]User
-	Items	[]Item
+	Status 	bool			`bson:"status"`
+	Host	User			`bson:"host"`
+	Guests	[]User			`bson:"guests"`
+	Items	[]Item			`bson:"items"`
 }
 
 type Item struct {
-	Id			int32
-	Name		string
-	Price		int32
-	Owners		[]User
+	Id			int32	`bson:"id"`
+	Name		string	`bson:"name"`
+	Price		int32	`bson:"price"`
+	Owners		[]User	`bson:"owners"`
 }
 
 type User struct {
-	Name	string
-	Id		int32
+	Name	string	`bson:"name"`
+	Id		int32	`bson:"id"`
+}
+
+type Owners struct {
+	Owners	[]User	`bson:"owners"`
 }
