@@ -65,7 +65,6 @@ func (s *Server) CreateBill(ctx context.Context, req *pb.CreateBillRequest) (*pb
 	}, nil
 }
 
-
 func (s *Server) GetBill(ctx context.Context, req *pb.GetBillRequest) (*pb.GetBillResponse, error) {
 	// コレクション取得
 	coll := s.DB.Database("fairtreat").Collection("Bill")
@@ -95,10 +94,151 @@ func (s *Server) GetBill(ctx context.Context, req *pb.GetBillRequest) (*pb.GetBi
 	}, nil
 }
 
+func (s *Server) ConfirmBill(ctx context.Context, req *pb.ConfirmBillRequest) (*pb.ConfirmBillResponse, error) {
+	// コレクション取得
+	coll := s.DB.Database("fairtreat").Collection("Bill")
+	var result pb.Bill
+	objId, err := primitive.ObjectIDFromHex(req.Id)
+	if err != nil {
+		fmt.Println("Error: id => ObjId")
+		fmt.Println(err)
+	}
+	filter := bson.D{{
+		Key: "_id",
+		Value: objId,
+	}, {
+		Key: "status",
+		Value: true,
+	}}
+
+	// Bill取得
+	err = coll.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		fmt.Println("Error: ObjectDecode")
+		fmt.Println(err)
+		return &pb.ConfirmBillResponse{
+			Status: false,
+		}, nil
+	}
+
+	// 処理用配列を作成
+	comfirmPrices := map[int32]*model.PayPrice{}
+	comfirmPrices[result.Host.Id] = &model.PayPrice{
+		User: model.User{
+			Id: result.Host.Id,
+			Name: result.Host.Name,
+		},
+		Price: 0,
+	}
+	for _, v := range result.Guests {
+		comfirmPrices[v.Id] = &model.PayPrice{
+			User: model.User{
+				Id: v.Id,
+				Name: v.Name,
+			},
+			Price: 0,
+		}
+	}
+
+	// 金額計算処理
+	for _, v := range result.Items {
+		fmt.Println(v)
+		var price int32 = v.Price
+		var count int32 = int32(len(v.Owners))
+		var priceOfPeople int32 = price / count
+		var priceOfMod int32 = price - (priceOfPeople * count)
+
+		flag := true
+		for _, w := range v.Owners {
+			if _, ok := comfirmPrices[w.Id]; !ok {
+				return &pb.ConfirmBillResponse{
+					Status: false,
+				}, nil
+			}
+			if flag {
+				comfirmPrices[w.Id].Price += priceOfMod
+				flag = false
+			}
+			comfirmPrices[w.Id].Price += priceOfPeople
+		}
+	}
+
+	// 確定データ変換
+	var comfirmBill []*pb.PayPrice
+	for _, v := range comfirmPrices {
+		comfirmBill = append(comfirmBill, &pb.PayPrice{
+			User: &pb.User{
+				Id: v.User.Id,
+				Name: v.User.Name,
+			},
+			Price: v.Price,
+		})
+	}
+
+	// データ登録
+	_, err = coll.UpdateOne(context.TODO(), filter, bson.D{{
+		Key: "$set",
+		Value: bson.D{{
+			Key: "comfirm",
+			Value: comfirmBill,
+		}},
+	}, {
+		Key: "$set",
+		Value: bson.D{{
+			Key: "status",
+			Value: false,
+		}},
+	}})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return &pb.ConfirmBillResponse{
+		Status: (err == nil),
+	}, nil
+}
+
+func (s *Server) GetConfirmBill(ctx context.Context, req *pb.GetConfirmBillRequest) (*pb.GetConfirmBillResponse, error) {
+	// コレクション取得
+	coll := s.DB.Database("fairtreat").Collection("Bill")
+	var result model.ComfirmBill
+	objId, err := primitive.ObjectIDFromHex(req.Id)
+	if err != nil {
+		fmt.Println("Error: id => ObjId")
+		fmt.Println(err)
+	}
+	filter := bson.D{{
+		Key: "_id",
+		Value: objId,
+	}, {
+		Key: "status",
+		Value: false,
+	}}
+
+	// ComfirmBill取得
+	err = coll.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		fmt.Println("Error: ObjectDecode")
+		fmt.Println(err)
+		return &pb.GetConfirmBillResponse{
+			Count: 0,
+			PayPrices: nil,
+		}, nil
+	}
+
+	// 個数を取得
+	var count int32 = int32(len(result.Comfirm))
+
+	return &pb.GetConfirmBillResponse{
+		Count: count,
+		PayPrices: result.Comfirm,
+	}, nil
+}
+
 func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_ConnectBillServer) error {
 	// コレクション取得
 	coll := s.DB.Database("fairtreat").Collection("Bill")
-	
+
 	// Idを取得
 	objId, err := primitive.ObjectIDFromHex(req.Id)
 	if err != nil {
@@ -151,4 +291,3 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 	}
 	return nil
 }
-
