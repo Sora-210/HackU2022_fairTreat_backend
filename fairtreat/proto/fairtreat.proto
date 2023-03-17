@@ -145,7 +145,7 @@ message GetItemsListResponse {
 // Set
 message SetItemOwnerRequest {
     string id = 1;
-    string itemId = 2;
+    int32 itemId = 2;
     repeated User owners = 3;
 }
 message SetItemOwnerResponse {
@@ -154,7 +154,7 @@ message SetItemOwnerResponse {
 // Get
 message GetItemOwnersRequest {
     string id = 1;
-    string itemId = 2;
+    int32 itemId = 2;
 }
 message GetItemOwnersResponse {
     int32 count = 1;
