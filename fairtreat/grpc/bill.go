@@ -147,6 +147,11 @@ func (s *Server) ConfirmBill(ctx context.Context, req *pb.ConfirmBillRequest) (*
 
 		flag := true
 		for _, w := range v.Owners {
+			if _, ok := comfirmPrices[w.Id]; !ok {
+				return &pb.ConfirmBillResponse{
+					Status: false,
+				}, nil
+			}
 			if flag {
 				comfirmPrices[w.Id].Price += priceOfMod
 				flag = false
