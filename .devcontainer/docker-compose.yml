@@ -9,6 +9,35 @@ services:
       - ~/.ssh:/root/.ssh
   db-primary:
     build: ./db
+    command: 
+      - --replSet
+      - rs0
+      - --keyFile
+      - /data/key/key
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    restart: always
+  db-secondary:
+    build: ./db
+    command: 
+      - --replSet
+      - rs0
+      - --keyFile
+      - /data/key/key
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    restart: always
+  db-arbiter:
+    build: ./db
+    command: 
+      - --replSet
+      - rs0
+      - --keyFile
+      - /data/key/key
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
