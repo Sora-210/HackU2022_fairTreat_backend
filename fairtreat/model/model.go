@@ -1,6 +1,11 @@
 package model
 
-import	"go.mongodb.org/mongo-driver/bson/primitive"
+import	(
+	"go.mongodb.org/mongo-driver/bson"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 
 type Bill struct {
 	ID	primitive.ObjectID	`bson:"_id"`
@@ -24,4 +29,14 @@ type User struct {
 
 type Owners struct {
 	Owners	[]User	`bson:"owners"`
+}
+
+type ChangeStream struct {
+	UpdateDescription	UpdateDescription	`bson:"updateDescription"`
+}
+
+type UpdateDescription struct {
+	RemoveFields	bson.M	`bson:"removeFields"`
+	TruncatedArrays	bson.M	`bson:"truncatedArrays"`
+	UpdatedFields	bson.M	`bson:"updatedFields"`
 }
