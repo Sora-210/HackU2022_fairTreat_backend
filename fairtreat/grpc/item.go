@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	pb "fairtreat.suwageeks.org/fairtreat/pb"
 
@@ -23,15 +23,19 @@ func (s *Server) GetItemsList(ctx context.Context, req *pb.GetItemsListRequest) 
 	
 	// コレクション取得
 	coll := s.DB.Database("fairtreat").Collection("Bill")
+
 	// 明細の存在チェック
 	var result model.Bill
 	objID, _ := primitive.ObjectIDFromHex(req.Id)
 	err := coll.FindOne(context.TODO(), bson.D{{
 		Key: "_id", 
 		Value: objID,
+	}, {
+		Key: "status",
+		Value: true,
 	}}).Decode(&result)
 	if err != nil {
-		fmt.Println(err)
+		log.Printf("[GetItemsList] Error Decode Object")
 		return &pb.GetItemsListResponse{
 			Count: 0,
 			Items: nil,

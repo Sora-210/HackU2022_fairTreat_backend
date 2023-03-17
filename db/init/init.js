@@ -5,4 +5,4 @@ rs.initiate({
     {_id: 1, host: "db-secondary:27017"},
     {_id: 2, host: "db-arbiter:27017"}
     ],
-});  
+});

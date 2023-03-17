@@ -33,6 +33,9 @@ func (s *Server) AddUser(ctx context.Context, req *pb.AddUserRequest) (*pb.AddUs
 	filter := bson.D{{
 		Key: "_id",
 		Value: objId,
+	}, {
+		Key: "status",
+		Value: true,
 	}}
 
 	// Bill存在チェック

@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	pb "fairtreat.suwageeks.org/fairtreat/pb"
 
@@ -33,6 +33,9 @@ func (s *Server) SetOwners(ctx context.Context, req *pb.SetItemOwnerRequest) (*p
 			Value: bson.D{{
 				Key: "_id",
 				Value: objID,
+			}, {
+				Key: "status",
+				Value: true,
 			}},
 		}},
 		bson.D{{ // 配列を展開
@@ -87,7 +90,7 @@ func (s *Server) SetOwners(ctx context.Context, req *pb.SetItemOwnerRequest) (*p
 		},
 	})
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	return &pb.SetItemOwnerResponse{
@@ -152,7 +155,7 @@ func (s *Server) GetItemOwnersList(ctx context.Context, req *pb.GetItemOwnersReq
 	var result model.Owners
 	for cur.Next(context.TODO()) {
 		if err := cur.Decode(&result); err != nil {
-			fmt.Println(err)
+			log.Println("[GetItemOweners] Error: Decode Object")
 		}
 	}
 	cur.Close(context.TODO())

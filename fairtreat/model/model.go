@@ -46,7 +46,7 @@ type PayPrice struct {
 	Price	int32
 }
 
-type ComfirmBill struct {
+type ConfirmBill struct {
 	ID			primitive.ObjectID	`bson:"_id"`
-	Comfirm		[]*pb.PayPrice			`bson:"comfirm"`
+	Confirm		[]*pb.PayPrice			`bson:"confirm"`
 }
