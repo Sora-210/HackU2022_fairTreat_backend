@@ -7,6 +7,8 @@ services:
     volumes:
       - ../:/work:cached
       - ~/.ssh:/root/.ssh
+    depends_on:
+      - db-primary
   db-primary:
     build: ./db
     command: 
@@ -20,6 +22,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     restart: always
+    depends_on:
+      - db-secondary
+      - db-arbiter
   db-secondary:
     build: ./db
     command: 
