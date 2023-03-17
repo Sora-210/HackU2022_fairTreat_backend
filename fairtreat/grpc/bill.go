@@ -56,10 +56,7 @@ func (s *Server) CreateBill(ctx context.Context, req *pb.CreateBillRequest) (*pb
 			Name: hostName,
 			Id: hostId,
 		},
-		Guests: []model.User{{
-			Id: hostId,
-			Name: hostName,
-		}},
+		Guests: nil,
 		Items: items,
 	}
 
@@ -68,6 +65,22 @@ func (s *Server) CreateBill(ctx context.Context, req *pb.CreateBillRequest) (*pb
 	if err != nil {
 		log.Printf("[CreateBill] Failed to insert initial data.\n%s\n", err)
 	}
+
+	// ホストをゲストリストに追加
+	filter := bson.D{{
+		Key: "_id",
+		Value: bill.ID,
+	}, {
+		Key: "status",
+		Value: true,
+	}}
+	_, err = coll.UpdateOne(context.TODO(), filter, bson.D{{
+		Key: "$push",
+		Value: bson.D{{
+			Key: "Guests",
+			Value: bill.Host,
+		}},
+	}})
 
 	// 明細生成完了, レスポンス
 	log.Printf("[CreateBill] Create Bill '%s'.\n", bill.ID)
