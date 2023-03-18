@@ -1,12 +1,10 @@
 version: '3'
 services:
-  dev:
-    build: ./go
-    command: sleep infinity
-    working_dir: /work
-    volumes:
-      - ../:/work:cached
-      - ~/.ssh:/root/.ssh
+  app:
+    build: .
+    ports:
+      - 50001:50000
+    restart: always
     depends_on:
       - db-primary
   db-primary:
