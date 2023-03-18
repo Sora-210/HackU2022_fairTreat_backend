@@ -314,7 +314,7 @@ func (s *Server) ConnectBill(req *pb.ConnectBillRequest, stream pb.FairTreat_Con
 			// 正規表現の生成
 			guestRe := regexp.MustCompile(`^(Guest)`)
 			ownersRe := regexp.MustCompile(`items.\d.owners`)
-			comfirmRe := regexp.MustCompile(`^(comfirm)`)
+			comfirmRe := regexp.MustCompile(`^(confirm)`)
 			
 			// AddUser
 			if (guestRe.MatchString(k)) {
